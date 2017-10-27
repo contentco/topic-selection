@@ -1,0 +1,136 @@
+.container{
+  max-width: 960px;
+  margin: 0px auto;
+}
+
+.toggle.collapsed:after {
+    cursor: pointer;
+    content: "+";
+}
+
+.toggle.expanded:after {
+    cursor: pointer;
+    content: "-";
+}
+
+.glyphicon-none{
+  border: 1px solid #DDD;
+  width: 14px;
+  height: 14px;
+}
+
+.glyphicon-ok{
+  font-size: 10px;
+  background: #0d7fe2;
+  color: #FFF;
+  padding: 2px;
+}
+
+.no--child{
+  margin-left: 12px;
+}
+
+.selectize-input{
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 100%;
+  padding: 0 10px;
+  line-height: 36px;
+  overflow: hidden;
+  border: 1px solid #cbd6e0;
+  border-radius: 3px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-right: -20px;
+  min-height: 36px;
+  padding: 7px 10px 0px;
+}
+
+.selected-item{
+  background: #1d7bde;
+  padding: 8px;
+  padding-right: 25px;
+  position: relative;
+  border: 0 none;
+  color: #fff;
+  margin: 0 6px 7px 0;
+  line-height: 36px;
+  border-radius: 3px;
+}
+
+.selected-item-close{
+  cursor: pointer;
+  padding: 2px 0 0;
+  font-size: 15px;
+  width: 25px;
+  line-height: 27px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: inline-block;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  border-left: 1px solid transparent;
+  border-radius: 0 2px 2px 0;
+  box-sizing: border-box;
+}
+
+.input-filter {
+    max-width: 100%!important;
+    max-height: none!important;
+    min-height: 0!important;
+    padding: 0!important;
+    margin: 0!important;
+    text-indent: 0!important;
+    background: none!important;
+    border: 0 none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    -webkit-user-select: auto!important;
+}
+
+.input-filter:focus{
+  outline:none;
+}
+
+.tree-control .tree-view {
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    min-width: 348px;
+    margin-right: 30px;
+    max-height: 300px;
+    overflow: auto;
+    padding: 10px 5px;
+}
+
+.tree-control .tree-view ul {
+    padding: 0;
+    margin: 0;
+}
+
+.tree-control .tree-view .tree-container {
+    padding: 8px;
+}
+
+.tree-control .tree-view li {
+    list-style-type: none;
+    margin-left: 15px;
+}
+
+.item--parent{
+  color: #c7c6c6;
+  float:right;
+  font-size: 14px;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Topic Selection</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="topic.directive.js"></script>
+  </head>
+  <body ng-controller="AppController as appVm">
+    <div class="container">
+      <h1>Topic Selection</h1>
+      <topic data-input-model="appVm.modifiedData" multi-select="true"
+                         data-output-model="selectedItem2" data-default-label="Click here to Select..."></topic>
+    </div>
+  </body>
+</html>

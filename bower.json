@@ -1,0 +1,8 @@
+{
+  "author": "contnet co",
+  "name": "topic selection",
+  "dependencies": {
+    "angular": "^1.6.6"
+  },
+  "devDependencies": {}
+}
