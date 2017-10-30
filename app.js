@@ -172,11 +172,13 @@
       }, {
           id:13,
           parent: "Business & Finance",
+          haschild: true,
           name: "Finance",
           key: "Business & Finance > Finance"
       }, {
           id:14,
           parent: "Business & Finance",
+          haschild: true,
           name: "Services",
           key: "Business & Finance > Services"
       }, {
@@ -227,16 +229,19 @@
       }, {
           id:24,
           parent: "Lifestyle",
+          haschild: true,
           name: "Art",
           key: "Lifestyle > Art"
       }, {
           id:25,
           parent: "Lifestyle",
+          haschild: true,
           name: "Entertainment",
           key: "Lifestyle > Entertainment"
       }, {
           id:26,
           parent: "Lifestyle",
+          haschild: true,
           name: "Fashion",
           key: "Lifestyle > Fashion"
       }, {
@@ -247,6 +252,7 @@
       }, {
           id:28,
           parent: "Lifestyle",
+          haschild: true,
           name: "Recreation",
           key: "Lifestyle > Recreation"
       }, {
@@ -257,6 +263,7 @@
       }, {
           id:30,
           parent: "Travel & Hospitality",
+          haschild: true,
           name: "Travel & Tourism",
           key: "Travel & Hospitality > Travel & Tourism"
       },
@@ -313,6 +320,7 @@
       }, {
           id:41,
           parent: "Technology & Innovation",
+          haschild: true,
           name: "High Tech",
           key: "Technology & Innovation > High Tech"
       }, {
