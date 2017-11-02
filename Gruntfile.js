@@ -25,8 +25,8 @@ module.exports = function (grunt) {
     },
     watch: {
       scripts: {
-        files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-        tasks: ['jshint', 'karma:unit']
+        files: ['Gruntfile.js', '*.js', '*.css', '*.html'],
+        tasks: [ 'watch']
       }
     },
 

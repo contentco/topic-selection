@@ -38,6 +38,7 @@
             vm.defaultLabel = $scope.defaultLabel;
             vm.showTree = false;
             vm.selectedItems = [];
+            vm.selectedItem = null;
             vm.onControlClicked = onControlClicked;
             vm.docClickHide = docClickHide;
             vm.closePopup = closePopup;
@@ -76,20 +77,29 @@
             }
 
             function pushToSelect(item){
+
               if (item.checked) {
-                item.checked = !item.checked;
-              }
-              else{
+                item.checked = false;
+              } else{
                 item.checked = true;
               }
+              if (vm.selectedItem != item) {
+                if (vm.selectedItem) {
+                  vm.selectedItem.checked = false
+                }
+                vm.selectedItem = item;
+              } else {
+                vm.selectedItem = null;
 
-              if (vm.selectedItems.includes(item)) {
-                var index = vm.selectedItems.indexOf(item);
-                vm.selectedItems.splice(index, 1);
               }
-              else{
-                vm.selectedItems.push(item);
-              }
+
+              // if (vm.selectedItems.includes(item)) {
+              //   var index = vm.selectedItems.indexOf(item);
+              //   vm.selectedItems.splice(index, 1);
+              // }
+              // else{
+              //   vm.selectedItems.push(item);
+              // }
 
               if (vm.filterKeyword !== undefined) {
                 vm.filterKeyword = '';
@@ -110,8 +120,9 @@
             }
 
             function deselectItem(item){
-              vm.selectedItems.splice(vm.selectedItems.indexOf(item), 1);
               item.checked = false;
+              vm.selectedItem = null;
+              // vm.selectedItems.splice(vm.selectedItems.indexOf(item), 1);
             }
 
             function onControlClicked () {

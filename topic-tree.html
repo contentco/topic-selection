@@ -1,58 +1,99 @@
 <div class="tree-control">
   <div class="selectize-input" ng-click="tnVm.onControlClicked()">
-    <span ng-if="tnVm.selectedItems.length > 0" class="selected-items">
-      <span ng-repeat="selectedItem in tnVm.selectedItems" class="selected-item">{{selectedItem.name}}
+    <span ng-if="tnVm.selectedItem" class="selected-items">
+      <span class="selected-item">{{tnVm.selectedItem.name}}
       <span class="selected-item-close"
-          ng-click="tnVm.deselectItem(selectedItem)">x</span>
+          ng-click="tnVm.deselectItem(tnVm.selectedItem)">x</span>
       </span>
     </span>
     <input
           class="input-filter"
+          ng-if="!tnVm.selectedItem"
           type="text"
           ng-model="tnVm.filterKeyword"
           ng-change="tnVm.filterChange()"
           ng-click="onFilterClicked($event)">
   </div>
-  <div class="tree-view" ng-show="tnVm.showTree">
-      <ul class="tree-container" >
-          <li ng-repeat="item in tnVm.utmostTopics" ng-if="!tnVm.filterKeyword">
-            <span ng-if="item.haschild" ng-click="tnVm.openTree(item)">
-              <i class="toggle"
-                ng-class="tnVm.itemOpen.id == item.id ? 'expanded' : 'collapsed'"></i>
+  <div 
+    class="tree-view" 
+    ng-show="tnVm.showTree">
+      <ul 
+        class="tree-container">
+          <li
+            class="tree-item"
+            ng-repeat="item in tnVm.utmostTopics"
+            ng-if="!tnVm.filterKeyword">
+            <span class="tree-group">
+              <span 
+                class="tree-toggle" 
+                ng-if="item.haschild" 
+                ng-click="tnVm.openTree(item)">
+                <i class="toggle"
+                  ng-class="tnVm.itemOpen.id == item.id ? 'expanded' : 'collapsed'"></i>
+              </span>
+              <span 
+                class="tree-select" 
+                ng-class="item.haschild ? 'has--child' : 'no--child'" 
+                ng-click="tnVm.pushToSelect(item)">
+                <span>{{item.name}}</span>
+                <i class="glyphicon" ng-class="{'glyphicon-ok': item.checked, 'glyphicon-none': !item.checked}"></i>
+              </span>
             </span>
-            <span ng-click="tnVm.pushToSelect(item)" ng-class="item.haschild ? 'has--child' : 'no--child'">
-              <i class="glyphicon" ng-class="{'glyphicon-ok': item.checked, 'glyphicon-none': !item.checked}"></i>
-              <span>{{item.name}}</span>
-            </span>
+
             <ul ng-if="tnVm.itemOpen.id == item.id">
-              <li ng-repeat="firstChild in tnVm.firstChildTopics">
-                <span
-                    ng-if="firstChild.haschild" ng-click="tnVm.openSecondTree(firstChild)"
+              <li 
+                class="tree-item"
+                ng-repeat="firstChild in tnVm.firstChildTopics">
+                <span class="tree-group">
+                  <span
+                    class="tree-toggle tree--first"
+                    ng-if="firstChild.haschild"
+                    ng-click="tnVm.openSecondTree(firstChild)"
                     ng-class="item.haschild ? 'has--child' : 'no--child'">
-                  <i class="toggle"
-                    ng-class="tnVm.childOpen.id == firstChild.id ? 'expanded' : 'collapsed'"
-                  ></i>
-                </span>
-                <span ng-click="tnVm.pushToSelect(firstChild)" ng-class="firstChild.haschild ? 'has--child' : 'no--child'">
-                  <i class="glyphicon" ng-class="{'glyphicon-ok': firstChild.checked, 'glyphicon-none': !firstChild.checked}"></i>
-                  <span>{{firstChild.name}}</span>
+                    <i 
+                      class="toggle"
+                      ng-class="tnVm.childOpen.id == firstChild.id ? 'expanded' : 'collapsed'"
+                    ></i>
+                  </span>
+                  <span 
+                    class="tree-select" 
+                    ng-click="tnVm.pushToSelect(firstChild)" 
+                    ng-class="firstChild.haschild ? 'has--child' : 'no--child  tree--first'">
+                    <span>{{firstChild.name}}</span>
+                    <i class="glyphicon" ng-class="{'glyphicon-ok': firstChild.checked, 'glyphicon-none': !firstChild.checked}"></i>
+                  </span>
                 </span>
                 <ul ng-if="tnVm.childOpen.id == firstChild.id">
-                  <li ng-repeat="secondChild in tnVm.secondChildTopics">
-                    <span ng-click="tnVm.pushToSelect(secondChild)">
-                      <i class="glyphicon" ng-class="{'glyphicon-ok': secondChild.checked, 'glyphicon-none': !secondChild.checked}"></i>
-                      <span>{{secondChild.name}}</span>
+                  <li
+                    class="tree-item"
+                    ng-repeat="secondChild in tnVm.secondChildTopics">
+                    <span class="tree-group">
+                      <span 
+                        class="tree-select tree--second" 
+                        ng-click="tnVm.pushToSelect(secondChild)">
+                        <span>{{secondChild.name}}</span>
+                        <i class="glyphicon" 
+                          ng-class="{'glyphicon-ok': secondChild.checked, 'glyphicon-none': !secondChild.checked}"></i>
+                      </span>
                     </span>
                   </li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li ng-repeat="item in tnVm.topics" ng-if="tnVm.filterKeyword">
-            <span ng-if="!item.isFiltered" ng-click="tnVm.pushToSelect(item)">
-              <i class="glyphicon" ng-class="{'glyphicon-ok': item.checked, 'glyphicon-none': !item.checked}"></i>
-              {{item.name}}
-              <span class="item--parent">{{item.parent}}<span>
+          <li 
+            class="tree-item"
+            ng-repeat="item in tnVm.topics"
+            ng-if="tnVm.filterKeyword">
+            <span class="tree-group">
+              <span 
+                class="tree-select"
+                ng-if="!item.isFiltered"
+                ng-click="tnVm.pushToSelect(item)">
+                <span>{{item.name}}</span>
+                <span class="item--parent">{{item.parent}}<span>
+                <i class="glyphicon" ng-class="{'glyphicon-ok': item.checked, 'glyphicon-none': !item.checked}"></i>
+              </span>
             </span>
           </li>
       </ul>

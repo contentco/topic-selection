@@ -3,14 +3,26 @@
   margin: 0px auto;
 }
 
-.toggle.collapsed:after {
-    cursor: pointer;
-    content: "+";
+.toggle.collapsed:before {
+  border: 5px solid transparent;
+  border-left-color: #adb0b3;
+  content: '';
+  display: block;
+  height: 0;
+  left: 2px;
+  top: 4px;
+  width: 0;
 }
 
-.toggle.expanded:after {
-    cursor: pointer;
-    content: "-";
+.toggle.expanded:before {
+  border: 5px solid transparent;
+  border-top-color: #adb0b3;
+  content: '';
+  display: block;
+  height: 0;
+  left: 0;
+  top: 5px;
+  width: 0;
 }
 
 .glyphicon-none{
@@ -24,11 +36,10 @@
   background: #0d7fe2;
   color: #FFF;
   padding: 2px;
+  border-radius: 2px;
+  height: 14px;
 }
 
-.no--child{
-  margin-left: 12px;
-}
 
 .selectize-input{
   position: relative;
@@ -47,7 +58,7 @@
   box-sizing: border-box;
   margin-right: -20px;
   min-height: 36px;
-  padding: 7px 10px 0px;
+  padding: 7px 10px;
 }
 
 .selected-item{
@@ -83,6 +94,7 @@
 }
 
 .input-filter {
+    width: 100%;
     max-width: 100%!important;
     max-height: none!important;
     min-height: 0!important;
@@ -112,7 +124,7 @@
     margin-right: 30px;
     max-height: 300px;
     overflow: auto;
-    padding: 10px 5px;
+    /*padding: 10px 5px;*/
 }
 
 .tree-control .tree-view ul {
@@ -121,16 +133,73 @@
 }
 
 .tree-control .tree-view .tree-container {
-    padding: 8px;
+    /*padding: 8px;*/
 }
 
 .tree-control .tree-view li {
     list-style-type: none;
-    margin-left: 15px;
+    /*padding-left: 15px;*/
 }
+
+
+.tree-item {
+/*  display: flex;
+  align-items: center;*/
+  /*border-bottom: 1px solid #cbd6e0;*/
+}
+
+.tree-group {
+  display: flex;
+  align-items: center;
+}
+
+.tree-toggle {
+  height: 40px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #cbd6e0;
+  border-bottom: 1px solid #cbd6e0;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+.tree--first {
+  padding-left: 40px;
+}
+
+.tree--second {
+  padding-left: 80px !important;
+}
+
+
+.tree-select {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #cbd6e0;
+  cursor: pointer;
+  align-items: center;
+}
+
+.tree-select:hover {
+  transition: .5s cubic-bezier(.165, .84, .44, 1);
+  background-color: #F2F4F6;
+}
+
+.no--child{
+  padding-left: 51px;
+}
+
+.no--child.tree--first {
+  padding-left: 71px;
+}
+
 
 .item--parent{
   color: #c7c6c6;
-  float:right;
+  /*float: right;*/
   font-size: 14px;
 }
