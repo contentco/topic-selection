@@ -62,35 +62,38 @@
 }
 
 .selected-item{
-  background: #1d7bde;
-  padding: 8px;
-  padding-right: 25px;
+  display: flex;
+  /*background: #1d7bde;*/
+  /*padding: 8px;*/
+  /*padding-right: 25px;*/
   position: relative;
   border: 0 none;
-  color: #fff;
-  margin: 0 6px 7px 0;
+  /*color: #fff;*/
+  /*margin: 0 6px 7px 0;*/
   line-height: 36px;
   border-radius: 3px;
 }
 
 .selected-item-close{
+  margin-left: auto;
   cursor: pointer;
-  padding: 2px 0 0;
-  font-size: 15px;
-  width: 25px;
-  line-height: 27px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: inline-block;
-  color: inherit;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  border-left: 1px solid transparent;
-  border-radius: 0 2px 2px 0;
-  box-sizing: border-box;
+  /*padding: 2px 0 0;*/
+  /*font-size: 15px;*/
+  /*width: 25px;*/
+  /*line-height: 27px;*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*right: 0;*/
+  /*bottom: 0;*/
+  color: #80909D;
+  /*display: inline-block;*/
+  /*color: inherit;*/
+  /*text-align: center;*/
+  /*text-decoration: none;*/
+  /*vertical-align: middle;*/
+  /*border-left: 1px solid transparent;*/
+  /*border-radius: 0 2px 2px 0;*/
+  /*box-sizing: border-box;*/
 }
 
 .input-filter {
@@ -165,6 +168,15 @@
   cursor: pointer;
 }
 
+.tree-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+
 .tree--first {
   padding-left: 40px;
 }
@@ -189,6 +201,10 @@
   background-color: #F2F4F6;
 }
 
+.name-selected {
+  color: #1d7bde;
+}
+
 .no--child{
   padding-left: 51px;
 }
@@ -200,6 +216,8 @@
 
 .item--parent{
   color: #c7c6c6;
+  margin-left: 10px;
+  white-space: nowrap;
   /*float: right;*/
   font-size: 14px;
 }
