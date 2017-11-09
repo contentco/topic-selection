@@ -221,3 +221,8 @@
   /*float: right;*/
   font-size: 14px;
 }
+
+.active{
+  transition: .5s cubic-bezier(.165, .84, .44, 1);
+  background-color: #F2F4F6;
+}
