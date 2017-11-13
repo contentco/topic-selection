@@ -1,7 +1,7 @@
 (function(angular){
 
   angular
-    .module('app', ['ngLodash'])
+    .module('app', ['ngLodash','duScroll'])
     .controller('AppController', AppController)
     .factory('AppService', AppService)
     .filter('propsFilter', function() {
@@ -41,12 +41,12 @@
       }
     });
 
-  AppController.$inject = ['$scope', 'AppService'];
+  AppController.$inject = ['$scope', 'AppService','$document'];
   AppService.$inject = [];
 
 
 
-  function AppController($scope, AppService) {
+  function AppController($scope, AppService,$document) {
     vm = this;
     vm.newMessage = '';
     vm.updateMessage = updateMessage;
@@ -62,6 +62,7 @@
     //initial
     vm.parentData = vm.topics.filter(function(item) {return item.parent == null});
     vm.modifiedData = vm.topics;
+
 
     getTopics();
 

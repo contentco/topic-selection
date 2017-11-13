@@ -6,8 +6,7 @@
     'use strict';
 
     angular.module('app')
-        .directive('topic', topic)
-        .directive('listItem', listItem);
+        .directive('topic', topic);
 
   function topic() {
         var directive = {
@@ -22,25 +21,12 @@
             },
             link: link,
             controller: TopicTreeController,
-            controllerAs: 'tnVm',
+            controllerAs: 'tsVm',
             templateUrl: 'topic-tree.html'
          };
         return directive;
 
         function link(scope, element, attrs, $document) {
-          //console.log(element);
-          // element.bind('keydown', function(e) {
-          //   if (e.keyCode == 38) {  // Up Arrow
-          //       console.log('up');
-          //       console.log(scope.tnVm);
-          //     } else if (e.keyCode == 40) {  // Down Arrow
-          //         console.log('down');
-          //     } else if (e.keyCode == 13) {  // Enter
-          //         console.log('enter');
-          //     }
-          //
-          //     scope.$apply();
-          // })
         }
 
         function TopicTreeController(
@@ -57,13 +43,13 @@
             vm.docClickHide = docClickHide;
             vm.closePopup = closePopup;
             vm.openTree = openTree;
-            vm.openSecondTree = openSecondTree;
             vm.pushToSelect = pushToSelect;
             vm.deselectItem = deselectItem;
             vm.filterChange = filterChange;
             vm.child = [];
             var lodash = common.lodash;
-
+            var topicScrollContainer = angular.element(document.getElementById('topic-item-container'));
+            console.log(topicScrollContainer);
             init();
 
 
@@ -84,43 +70,61 @@
             });
 
             function _leftArrow(){
-              var elem = angular.element(document.querySelector(".active"));
-              vm.openTree(vm.selectedOne);
+              if (vm.selectedOne.level == 1) {
+                return;
+              }
+              _checkArrayLevel();
+              var _parent = lodash.find(
+                       vm.topics,
+                       function(o) {return o.id == vm.selectedOne.parent.id;});
+              vm.selectedOne = _parent;
+              vm.selectedOne.childOpen = false;
+              var item = angular.element(document.getElementById('item-'+vm.selectedOne.id));
+              topicScrollContainer.scrollTo(item);
             }
 
             function _upArrow(){
-              vm.dummyArray = vm.utmostTopics;
-              _checkArrayLevel();
+              if (!vm.filterKeyword) {
+                _checkArrayLevel();
+              }
               if (vm.selectedIndex > 0) {
                 vm.selectedIndex --;
               }
-              vm.selectedOne = vm.dummyArray[vm.selectedIndex];
+              var upperTopic = vm.dummyArray[vm.selectedIndex];
+              if (typeof(upperTopic) == 'undefined') {
+                upperTopic = vm.selectedOne;
+              }
+              vm.selectedOne = upperTopic;
               var elem = angular.element(document.querySelector(".active"));
+              var item = angular.element(document.getElementById('item-'+vm.selectedOne.id));
+              topicScrollContainer.scrollTo(item);
             }
 
             function _downArrow(){
-              vm.dummyArray = vm.utmostTopics;
-              _checkArrayLevel();
+              if (!vm.filterKeyword) {
+                _checkArrayLevel();
+                vm.selectedIndex = vm.selectedOne.index;
+              }
+
               if (vm.selectedIndex < vm.dummyArray.length - 1) {
                   vm.selectedIndex ++;
               }
               vm.selectedOne = vm.dummyArray[vm.selectedIndex];
               var elem = angular.element(document.querySelector(".active"));
-              elem[0].scrollIntoView();
-              elem[0].focus();
+              var item = angular.element(document.getElementById('item-'+vm.selectedOne.id));
+              topicScrollContainer.scrollTo(item);
             }
 
             function _rightArrow(){
-              var elem = angular.element(document.querySelector(".active"));
-              if (vm.selectedOne.hasChild && vm.selectedOne.parent == null) {
+              if (vm.selectedOne.hasChild) {
                 vm.openTree(vm.selectedOne);
-                vm.selectedIndex = 0;
-                vm.selectedOne = vm.firstChildTopics[vm.selectedIndex];
-              }
-              else{
-                vm.openSecondTree(vm.selectedOne);
-                vm.selectedIndex = 0;
-                vm.selectedOne = vm.secondChildTopics[vm.selectedIndex];
+                var firstChild = vm.selectedOne.children[0];
+                vm.selectedOne = firstChild;
+                vm.dummyArray = vm.topics.filter(function(child) {
+                  if (child.parent !== null && (child.parent.id == vm.selectedOne.parent.id)) {
+                    return child;
+                  }
+                });
               }
             }
 
@@ -129,16 +133,28 @@
             }
 
             function _checkArrayLevel(){
-              if (vm.firstChildTopics && !vm.secondChildTopics) {
-                vm.dummyArray = vm.firstChildTopics;
+              if (vm.selectedOne.level == 1) {
+                vm.dummyArray = vm.utmostTopics;
               }
-              else if(vm.secondChildTopics){
-                vm.dummyArray = vm.secondChildTopics;
+              else if(vm.selectedOne.level == 3){
+                var sameLevelTopics = vm.topics.filter(function(child) {
+                  if (child.parent !== null && (child.parent.id == vm.selectedOne.parent.id)) {
+                    return child;
+                  }
+                });
+                vm.dummyArray = sameLevelTopics;
+              }
+              else{
+                var sameLevelTopics = vm.topics.filter(function(child) {
+                  if (child.parent !== null && (child.parent.id == vm.selectedOne.parent.id)) {
+                    return child;
+                  }
+                });
+                vm.dummyArray = sameLevelTopics;
               }
             }
 
             function init(){
-              //vm.utmostTopics = vm.topics.filter(function(item) {return item.parent == null});
               var topics = vm.topics.filter(function(item) {return item.parent == null;});
               vm.utmostTopics = common.lodash.orderBy(topics, ['label'], ['asc']);
               angular.forEach(vm.utmostTopics, function(topic, index){
@@ -146,6 +162,12 @@
                   if (topic.label === "Other") {
                     vm.utmostTopics.push(vm.utmostTopics.splice(index,1)[0]);
                   }
+              });
+
+              //put index field for up and down arrow
+              angular.forEach(vm.utmostTopics, function(topic, index){
+                  topic.level = 1;
+                  topic.index = index;
               });
             }
 
@@ -179,31 +201,19 @@
             }
 
             function openTree(item){
-              if (vm.itemOpen && item.id == vm.itemOpen.id) {
-                vm.itemOpen = {};
-                vm.childOpen = {};
-              }
-              else{
-                vm.itemOpen = item;
-                vm.firstChildTopics = _getChildTopics(item);
-                angular.forEach(vm.firstChildTopics, function(topic, index){
-                    _addFieldIfItemHasChild(topic);
-                });
-              }
-            }
+              item.childOpen = !item.childOpen;
+              var itemChild = _getChildTopics(item);
+              var topicLevel = item.level + 1;
+              angular.forEach(itemChild, function(topic, index){
+                  _addFieldIfItemHasChild(topic);
+                  topic.level = topicLevel;
+                  topic.index = index;
+              });
 
-            function openSecondTree(child){
-              if (vm.childOpen && child.id == vm.childOpen.id) {
-                vm.childOpen = {};
-              }
-              else{
-                vm.childOpen = child;
-                vm.secondChildTopics = _getChildTopics(child);
-              }
+              item.children = _getChildTopics(item);
             }
 
             function pushToSelect(item){
-
               if (item.checked) {
                 item.checked = false;
               } else{
@@ -216,25 +226,29 @@
                 vm.selectedItem = item;
               } else {
                 vm.selectedItem = null;
-
               }
 
               if (vm.filterKeyword !== undefined) {
                 vm.filterKeyword = '';
               }
+
+              vm.showTree = !vm.showTree;
             }
 
             function filterChange(){
               vm.showTree = true;
               if (vm.filterKeyword !== undefined) {
-                angular.forEach(vm.topics, function (item) {
-                  if (item.name.toLowerCase().indexOf(vm.filterKeyword.toLowerCase()) !== -1) {
-                    item.isFiltered = false;
-                  } else {
-                    item.isFiltered = true;
+                vm.filterTopics = [];
+                angular.forEach(vm.topics, function (item, index) {
+                  if (item.label.toLowerCase().indexOf(vm.filterKeyword.toLowerCase()) !== -1) {
+                    item.index = index;
+                    vm.filterTopics.push(item);
                   }
                 });
               }
+              vm.dummyArray = vm.filterTopics;
+              vm.selectedOne = vm.dummyArray[0];
+              vm.selectedIndex = 0;
             }
 
             function deselectItem(item){
@@ -262,17 +276,4 @@
             }
         }
     }
-
-  function listItem($document){
-    var directive = {
-        restrict: 'EA',
-        scope: {},
-        link: link,
-     };
-    return directive;
-
-    function link(scope, element, attrs, $document) {
-      console.log(element);
-    }
-  }
 }());
